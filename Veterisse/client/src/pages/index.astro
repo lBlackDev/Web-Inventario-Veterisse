@@ -1,11 +1,641 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header";
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <Header/>
+  <main class="flex-1 overflow-auto p-4 md:p-6">
+    <div class="flex flex-col gap-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold tracking-tight">
+          Ya vengo :V
+        </h1><button
+          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-teal-600 hover:bg-teal-700"
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded="false"
+          aria-controls="radix-«r0»"
+          data-state="closed"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="lucide lucide-plus mr-2 h-4 w-4"
+            ><path d="M5 12h14"></path><path d="M12 5v14"></path></svg
+          > Agregar Producto</button>
+      </div><div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div
+          class="rounded-lg border bg-card text-card-foreground shadow-sm"
+          data-v0-t="card"
+        >
+          <div
+            class="space-y-1.5 p-6 flex flex-row items-center justify-between pb-2"
+          >
+            <h3 class="tracking-tight text-sm font-medium">
+              Total Productos
+            </h3><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-package h-4 w-4 text-gray-500"
+              ><path d="m7.5 4.27 9 5.15"></path><path
+                d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"
+              ></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"
+              ></path></svg>
+          </div><div class="p-6 pt-0">
+            <div class="text-2xl font-bold">6</div><p
+              class="text-xs text-gray-500"
+            >
+              Productos en inventario
+            </p>
+          </div>
+        </div><div
+          class="rounded-lg border bg-card text-card-foreground shadow-sm"
+          data-v0-t="card"
+        >
+          <div
+            class="space-y-1.5 p-6 flex flex-row items-center justify-between pb-2"
+          >
+            <h3 class="tracking-tight text-sm font-medium">Bajo Stock</h3><div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-amber-500 border-amber-500"
+              data-v0-t="badge"
+            >
+              2
+            </div>
+          </div><div class="p-6 pt-0">
+            <div class="text-2xl font-bold text-amber-500">2</div><p
+              class="text-xs text-gray-500"
+            >
+              Productos con stock bajo
+            </p>
+          </div>
+        </div><div
+          class="rounded-lg border bg-card text-card-foreground shadow-sm"
+          data-v0-t="card"
+        >
+          <div
+            class="space-y-1.5 p-6 flex flex-row items-center justify-between pb-2"
+          >
+            <h3 class="tracking-tight text-sm font-medium">Sin Stock</h3><div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-red-500 border-red-500"
+              data-v0-t="badge"
+            >
+              1
+            </div>
+          </div><div class="p-6 pt-0">
+            <div class="text-2xl font-bold text-red-500">1</div><p
+              class="text-xs text-gray-500"
+            >
+              Productos agotados
+            </p>
+          </div>
+        </div><div
+          class="rounded-lg border bg-card text-card-foreground shadow-sm"
+          data-v0-t="card"
+        >
+          <div
+            class="space-y-1.5 p-6 flex flex-row items-center justify-between pb-2"
+          >
+            <h3 class="tracking-tight text-sm font-medium">Valor Total</h3><div
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-teal-600 border-teal-600"
+              data-v0-t="badge"
+            >
+              $
+            </div>
+          </div><div class="p-6 pt-0">
+            <div class="text-2xl font-bold text-teal-600">$27029.18</div><p
+              class="text-xs text-gray-500"
+            >
+              Valor del inventario
+            </p>
+          </div>
+        </div>
+      </div><div dir="ltr" data-orientation="horizontal" class="w-full">
+        <div class="flex items-center justify-between">
+          <div
+            role="tablist"
+            aria-orientation="horizontal"
+            class="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
+            tabindex="0"
+            data-orientation="horizontal"
+            style="outline: none;"
+          >
+            <button
+              type="button"
+              role="tab"
+              aria-selected="true"
+              aria-controls="radix-«r3»-content-todos"
+              data-state="active"
+              id="radix-«r3»-trigger-todos"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              tabindex="-1"
+              data-orientation="horizontal"
+              data-radix-collection-item="">Todos</button
+            ><button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="radix-«r3»-content-electrónicos"
+              data-state="inactive"
+              id="radix-«r3»-trigger-electrónicos"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              tabindex="-1"
+              data-orientation="horizontal"
+              data-radix-collection-item="">Electrónicos</button
+            ><button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="radix-«r3»-content-accesorios"
+              data-state="inactive"
+              id="radix-«r3»-trigger-accesorios"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              tabindex="-1"
+              data-orientation="horizontal"
+              data-radix-collection-item="">Accesorios</button
+            ><button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="radix-«r3»-content-oficina"
+              data-state="inactive"
+              id="radix-«r3»-trigger-oficina"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              tabindex="-1"
+              data-orientation="horizontal"
+              data-radix-collection-item="">Oficina</button
+            ><button
+              type="button"
+              role="tab"
+              aria-selected="false"
+              aria-controls="radix-«r3»-content-mobiliario"
+              data-state="inactive"
+              id="radix-«r3»-trigger-mobiliario"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+              tabindex="-1"
+              data-orientation="horizontal"
+              data-radix-collection-item="">Mobiliario</button>
+          </div>
+        </div><div
+          class="rounded-lg border bg-card text-card-foreground shadow-sm mt-6"
+          data-v0-t="card"
+        >
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="text-2xl font-semibold leading-none tracking-tight">
+              Productos
+            </h3><p class="text-sm text-muted-foreground">
+              Gestiona tu inventario de productos. Agrega, edita o elimina
+              productos según sea necesario.
+            </p>
+          </div><div class="p-6 pt-0">
+            <div class="relative w-full overflow-auto">
+              <table class="w-full caption-bottom text-sm">
+                <thead class="[&_tr]:border-b"
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><th
+                      class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                      >Nombre</th
+                    ><th
+                      class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                      >Categoría</th
+                    ><th
+                      class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                      >Stock</th
+                    ><th
+                      class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                      >Precio</th
+                    ><th
+                      class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                      >Estado</th
+                    ><th
+                      class="h-12 px-4 align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 text-right"
+                      >Acciones</th
+                    ></tr
+                  ></thead
+                ><tbody class="[&_tr:last-child]:border-0"
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Laptop HP Pavilion</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Electrónicos</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >24</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$899.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-green-500 border-green-500"
+                        data-v0-t="badge"
+                      >
+                        En stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«r9»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Monitor Samsung 24"</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Electrónicos</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >15</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$199.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-green-500 border-green-500"
+                        data-v0-t="badge"
+                      >
+                        En stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«rc»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Teclado Mecánico Logitech</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Accesorios</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >8</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$89.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-amber-500 border-amber-500"
+                        data-v0-t="badge"
+                      >
+                        Bajo stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«rf»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Mouse Inalámbrico</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Accesorios</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >32</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$29.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-green-500 border-green-500"
+                        data-v0-t="badge"
+                      >
+                        En stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«ri»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Impresora Multifuncional</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Oficina</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >3</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$249.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-amber-500 border-amber-500"
+                        data-v0-t="badge"
+                      >
+                        Bajo stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«rl»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ><tr
+                    class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                      >Escritorio Ajustable</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >Mobiliario</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >0</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      >$349.99</td
+                    ><td class="p-4 align-middle [&:has([role=checkbox])]:pr-0"
+                      ><div
+                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-red-500 border-red-500"
+                        data-v0-t="badge"
+                      >
+                        Sin stock
+                      </div></td
+                    ><td
+                      class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                      ><div class="flex justify-end gap-2">
+                        <button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          type="button"
+                          aria-haspopup="dialog"
+                          aria-expanded="false"
+                          aria-controls="radix-«ro»"
+                          data-state="closed"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-square-pen h-4 w-4"
+                            ><path
+                              d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                            ></path><path
+                              d="M18.375 2.625a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4Z"
+                            ></path></svg
+                          ><span class="sr-only">Editar</span></button
+                        ><button
+                          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:bg-accent hover:text-accent-foreground h-10 w-10"
+                          ><svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="lucide lucide-trash2 h-4 w-4 text-red-500"
+                            ><path d="M3 6h18"></path><path
+                              d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"
+                            ></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"
+                            ></path><line x1="10" x2="10" y1="11" y2="17"
+                            ></line><line x1="14" x2="14" y1="11" y2="17"
+                            ></line></svg
+                          ><span class="sr-only">Eliminar</span></button>
+                      </div></td
+                    ></tr
+                  ></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
 </Layout>
