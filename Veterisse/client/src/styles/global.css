@@ -13,6 +13,10 @@
   html {
     font-family: 'Inter', sans-serif;
   }
+
+  * {
+    border-color: #bbba
+  }
 }
 
 input, input:focus, input:active, input:focus:active { 
