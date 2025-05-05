@@ -17,13 +17,9 @@ app.get('/', async (_, res) => {
       const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       res.json(items);
 
-      // const [rows] = await pool.query('select * from veterissedb.item');
-      await products()
-        .then((json) => {
-        res.json(json);
-      })
+      }
 
-    } catch (err) {
+ catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
     }
