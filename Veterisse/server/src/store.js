@@ -1,15 +1,4 @@
-require('dotenv').config();
-const express = require('express');
-const cors    = require('cors');
-const { db } = require('./config/firebase');
-
-const app = express();
-app.use(cors());
-const PORT = process.env.PORT || 4000;
-
-app.use(express.json());
-// Test de conexión raiz
-const productos_json = [
+export const productos_json = [
     {
       "id": 1,
       "nombre": "Antibiótico Inyectable VET-A",
@@ -1361,35 +1350,3 @@ const productos_json = [
       "provedor": "DiagnosVet Labs"
     }
   ]
-const products = () => {
-  return new Promise((resolve, reject) => {
-
-    setTimeout(() => {
-      resolve(productos_json);
-    }, 1000);
-  })
-}
-
-app.get('/productos', async (_, res) => {
-    try {
-<<<<<<< HEAD
-      const snapshot = await db.collection('item').get();
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      res.json(items);
-=======
-      // const [rows] = await pool.query('select * from veterissedb.item');
-      await products()
-        .then((json) => {
-        res.json(json);
-      })
-
->>>>>>> 862789985247f0edf0d2e05264a725b4275019db
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
-    }
-  });
-
-app.listen(PORT, () => {
-  console.log(`🚀 API escuchando en http://localhost:${PORT}/`);
-});

@@ -1,0 +1,25 @@
+
+
+@import "tailwindcss";
+
+@theme {
+  --bg-dash: #f8f9fa;
+
+  --bg-teal: #139c91;
+  --bg-darkteal: #0f766e;
+}
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+
+  * {
+    border-color: #bbba
+  }
+}
+
+input, input:focus, input:active, input:focus:active { 
+  border: none;
+  outline: none;
+}
