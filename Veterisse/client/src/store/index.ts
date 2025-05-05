@@ -1,7 +1,8 @@
 import { create } from 'Zustand';
 import type { ProductosType } from '@/type';
 
-interface useStoreType {
+interface useStoreTableProductosProps {
+  allProductos: ProductosType[],
   productos: ProductosType[],
   totalProductos: number,
   stockBajo: number,
@@ -13,9 +14,11 @@ interface useStoreType {
   setStockAgotado: (num: number) => void,
   setValorTotal: (num: number) => void,
   setProductos: (productos: ProductosType[]) => void,
+  setAllProductos: (productos: ProductosType[]) => void
 }
 
-const useStore = create<useStoreType>((set) => ({
+const useStoreTableProductos = create<useStoreTableProductosProps>((set) => ({
+  allProductos: [],
   productos: [],
   totalProductos: 0,
   stockBajo: 0,
@@ -27,6 +30,9 @@ const useStore = create<useStoreType>((set) => ({
   setStockAgotado: (num) => set(() => ({ stockAgotado: num })),
   setValorTotal: (num) => set(() => ({ valorTotal: num })),
   setProductos: (productos) => set(() => ({ productos })),
+  setAllProductos: (productos) => set(() => ({ productos }))
 }));
 
-export default useStore;
+export {
+  useStoreTableProductos
+}

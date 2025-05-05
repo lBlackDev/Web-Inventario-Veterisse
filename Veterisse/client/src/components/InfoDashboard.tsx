@@ -1,7 +1,7 @@
-import useStore from "@/store";
+import {useStoreTableProductos} from "@/store";
 
 export const InfoDashboard = () => {
-  const { totalProductos, stockAgotado, stockBajo, valorTotal } = useStore();
+  const { totalProductos, stockAgotado, stockBajo, valorTotal } = useStoreTableProductos();
 
 
   return (

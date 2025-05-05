@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import useStore from '@/store';
+import {useStoreTableProductos} from '@/store';
 
 export default function Header() {
   const [searchProduct, setSearchProduct] = useState<string>('');
-  const { productos, setProductos } = useStore();
+  const { productos, setProductos } = useStoreTableProductos();
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;

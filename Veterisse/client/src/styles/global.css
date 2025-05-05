@@ -23,3 +23,61 @@ input, input:focus, input:active, input:focus:active {
   border: none;
   outline: none;
 }
+
+@view-transition {
+    navigation: auto;
+}
+
+.loader {
+  position: relative;
+  width: 40px;
+  height: 16px;
+}
+.loader:before , .loader:after{
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #111;
+  box-shadow: 32px 0 #111;
+  left: 0;
+  top: 0;
+  animation: ballMoveX .6s linear infinite;
+}
+.loader:after {
+  box-shadow: none;
+  transform-origin: 40px 0;
+  transform: rotate(-153deg);
+  animation: rotateLoader .6s linear infinite;
+}
+
+@keyframes rotateLoader {
+  0% , 10%{ transform: rotate(-153deg); }
+  90%, 100% { transform: rotate(0deg); }
+}
+@keyframes ballMoveX {
+  0% , 10%{  transform: translateX(0) }
+  90%, 100% { transform: translateX(32px) }
+}
+
+
+.scroll-delgado {
+  overflow-x: auto; 
+
+  scrollbar-width: thin; 
+  scrollbar-color: #ccc transparent;
+}
+
+.scroll-delgado::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scroll-delgado::-webkit-scrollbar-track {
+  background: #aaa2;
+}
+
+.scroll-delgado::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}

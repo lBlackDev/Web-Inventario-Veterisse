@@ -1,5 +1,6 @@
 ---
 import "@/styles/global.css";
+import { ClientRouter } from 'astro:transitions';
 ---
 
 <!doctype html>
@@ -8,7 +9,8 @@ import "@/styles/global.css";
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>Astro Basics</title>
+		<ClientRouter />
+		<title>Veterisse - Inventario</title>
 	</head>
 	<body>
 		<slot />
