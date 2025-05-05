@@ -1,8 +1,36 @@
-import {useStoreTableProductos} from "@/store";
+import type { ProductosType } from '@/type';
+import { useEffect, useState } from 'react';
 
-export const InfoDashboard = () => {
-  const { totalProductos, stockAgotado, stockBajo, valorTotal } = useStoreTableProductos();
+interface InfoDashboardProps {
+  productos: ProductosType[];
+}
 
+interface useStateProps {
+  totalProductos: {
+    stockAgotado: number;
+    stockBajo: number;
+    stockTotal: number;
+    valorTotal: number;
+  }
+}
+
+export const InfoDashboard = ({
+  productos
+}: InfoDashboardProps) => {
+  const [totalProductos, setTotalProductos] = useState<useStateProps["totalProductos"]>();
+  const {stockAgotado, stockBajo, stockTotal, valorTotal} = totalProductos || {};
+
+  useEffect(() => {
+    if (!productos.length) return;
+    setTotalProductos({
+      stockAgotado: productos.filter((product: { stock: number }) => product.stock <= 2).length,
+      stockBajo: productos.filter((product: { stock: number }) => product.stock >= 3 && product.stock <= 10).length,
+      stockTotal: productos.length,
+      valorTotal: productos.reduce((acc: number, product: { stock: number; precio: number }) =>
+        product.stock > 0 ? acc + product.stock * product.precio : 0, 0
+      )
+    })
+  })
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -31,7 +59,7 @@ export const InfoDashboard = () => {
           </svg>
         </div>
         <div className="p-6 pt-0">
-          <div className="text-2xl font-bold">{totalProductos}</div>
+          <div className="text-2xl font-bold">{stockTotal}</div>
           <p className="text-xs text-gray-500">Productos en inventario</p>
         </div>
       </div>

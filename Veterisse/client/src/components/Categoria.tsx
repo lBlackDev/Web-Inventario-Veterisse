@@ -1,15 +1,19 @@
 import BotonesCategoria from './BotonesCategoria';
 import { useStoreTableProductos } from '@/store';
-import useUpdateTableProductos from '@/hook/useUpdateTableProductos';
+import type { ProductosType } from '@/type';
 
-export const Categoria = () => {
+interface CategoriaProps {
+  inicialProductos: ProductosType[];
+}
+
+export const Categoria = ({inicialProductos}:CategoriaProps) => {
   // TODO: implementar filtro de categorias
-  const { handleFilterCategoria, categoria, allProductos } = useUpdateTableProductos();
+  const { categoria, setCategoria } = useStoreTableProductos();
 
-  const uniqueCategories = ["Todos", ...new Set(allProductos.map((producto) => producto.categoria))];
+  const uniqueCategories = ["Todos", ...new Set(inicialProductos.map((producto) => producto.categoria))];
 
   const handleCategoria = (categoria: string) => {
-    handleFilterCategoria(categoria)
+    setCategoria(categoria)
   }
   return (
     <div className="flex items-center justify-between w-full overflow-hidden overflow-x-auto scroll-delgado ">

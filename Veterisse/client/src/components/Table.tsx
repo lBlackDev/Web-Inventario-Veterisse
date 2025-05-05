@@ -1,22 +1,30 @@
 import React, { useEffect, useState } from "react";
 import TableItems from "./TableItems";
-import { getProducts } from "@/api";
 import Spinner from "./Spinner";
-import useUpdateTableProductos from "@/hook/useUpdateTableProductos";
+import type { ProductosType } from "@/type";
+import { useStoreTableProductos } from "@/store";
 
-const Table = () => {
-  const { productos, setProductos } = useUpdateTableProductos()
+interface TableProps {
+  inicialProductos: ProductosType[];
+}
+
+const Table = ({inicialProductos}:TableProps) => {
+  const [ productos, setProductos ] = useState<TableProps['inicialProductos']>(inicialProductos)
+  // TODO: Implementar logica para el search
+  const { categoria, search } = useStoreTableProductos();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
   // TODO: Implementar la logica para obtener los productos y actualizar el estado de los productos
 
   useEffect(() => {
-    getProducts()
-      .then((res) => {
-        setProductos(res)
-      })
-  }, [])
-
+    if (categoria === "Todos") {
+      setProductos(inicialProductos)
+      return
+    }
+    const filteredProducts = inicialProductos.filter(product => product.categoria === categoria);
+    setProductos(filteredProducts)
+  // TODO: Implementar logica para el search actualizar el estado de los productos
+  }, [categoria])
 
   // Cálculos para la paginación
   const totalPages = Math.ceil(productos.length / itemsPerPage);

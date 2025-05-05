@@ -2,11 +2,20 @@ require('dotenv').config();
 const express = require('express');
 const cors    = require('cors');
 const { db } = require('./config/firebase');
+const {productos_json} = require('./store.js');
 
 const app = express();
 app.use(cors());
 
 const PORT = process.env.PORT || 4000;
+
+const productos = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(productos_json);
+    }, 2000)
+  })
+}
 
 app.use(express.json());
 // Test de conexión raiz
@@ -21,6 +30,13 @@ app.get('/', async (_, res) => {
     }
   });
 
+app.get('/productos', async (_, res) => {
+  productos()
+  .then((productos) => {
+    res.json(productos);
+  })
+})
+
 app.listen(PORT, () => {
-  console.log("🚀 API escuchando en http://localhost:${PORT}/");
+  console.log(`🚀 API escuchando en http://localhost:${PORT}/`);
 });

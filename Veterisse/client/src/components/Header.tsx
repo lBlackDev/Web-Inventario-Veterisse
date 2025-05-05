@@ -3,7 +3,7 @@ import {useStoreTableProductos} from '@/store';
 
 export default function Header() {
   const [searchProduct, setSearchProduct] = useState<string>('');
-  const { productos, setProductos } = useStoreTableProductos();
+  const { setSearch } = useStoreTableProductos();
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
@@ -12,10 +12,7 @@ export default function Header() {
 
   useEffect(() => {
     // TODO: implementar busqueda de productos  
-    const filteredProducts = productos.filter(product => {
-      return product.nombre.toLowerCase().includes(searchProduct.toLowerCase());
-    });
-    setProductos(filteredProducts);
+    setSearch(searchProduct);
   }, [searchProduct])
 
   return (

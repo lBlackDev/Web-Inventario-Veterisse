@@ -1,4 +1,3 @@
-import useUpdateTableProductos from '@/hook/useUpdateTableProductos'
 import React from 'react'
 
 interface BotonesCategoriaProps {

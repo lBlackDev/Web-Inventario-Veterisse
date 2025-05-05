@@ -1,7 +1,7 @@
 interface Product {
   nombre: string;
   categoria: string;
-  cantidad: number;
+  stock: number;
   precio: number;
 }
 
@@ -10,24 +10,24 @@ interface TableItemsProps {
 }
 
 const TableItems: React.FC<TableItemsProps> = ({ product }) => {
-  const { nombre, categoria, cantidad, precio } = product;
+  const { nombre, categoria, stock, precio } = product;
 
-  const stock = 
-    cantidad <= 2 ? "text-red-500 border-red-500" 
-    : cantidad > 2 && cantidad <= 10 ? "text-amber-500 border-amber-500" 
-    : cantidad > 10 ? "text-green-500 border-green-500" 
+  const cantidad = 
+    stock <= 2 ? "text-red-500 border-red-500" 
+    : stock > 2 && stock <= 10 ? "text-amber-500 border-amber-500" 
+    : stock > 10 ? "text-green-500 border-green-500" 
     : "text-black";
 
   return (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
       <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium">{nombre}</td>
       <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">{categoria}</td>
-      <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">{cantidad}</td>
+      <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">{stock}</td>
       <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">${precio}</td>
       <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
         <div 
           className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold 
-          transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${stock}`}>
+          transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${cantidad}`}>
           En stock
         </div>
       </td>
