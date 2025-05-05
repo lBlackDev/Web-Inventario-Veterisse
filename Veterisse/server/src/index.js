@@ -24,7 +24,10 @@ app.get('/', async (_, res) => {
       const snapshot = await db.collection('item').get();
       const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       res.json(items);
-    } catch (err) {
+
+      }
+catch (err) {
+
       console.error(err);
       res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
     }
