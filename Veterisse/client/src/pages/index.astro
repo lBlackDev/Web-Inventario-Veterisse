@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Table from "@/components/Table";
 import { InfoDashboard } from "@/components/InfoDashboard";
 import Categoria from "@/components/Categoria";
+import { IconPlus } from "@tabler/icons-react"
 ---
 
 <Layout>
@@ -16,21 +17,9 @@ import Categoria from "@/components/Categoria";
           Inventario
         </h1>
         <button
-          class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-teal-600 hover:bg-teal-700"
+          class="inline-flex text-white items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-teal-600 hover:bg-teal-700"
           type="button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-plus mr-2 h-4 w-4"
-            ><path d="M5 12h14"></path><path d="M12 5v14"></path>
-          </svg> 
+          <IconPlus color="white"/>
           <!-- TODO: Agregar funcionalidad de modal -->
           Agregar Producto
         </button>
