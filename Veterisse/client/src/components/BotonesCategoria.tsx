@@ -1,4 +1,3 @@
-import React from 'react'
 
 interface BotonesCategoriaProps {
   text: string;
@@ -17,7 +16,7 @@ const BotonesCategoria = ({text, handleCategoria, isActive}: BotonesCategoriaPro
         transition-all focus-visible:outline-none focus-visible:ring-2
         focus-visible:ring-ring focus-visible:ring-offset-2
         disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background 
-        data-[state=active]:text-foreground data-[state=active]:shadow-sm 
+        data-[state=active]:text-foreground data-[state=active]:shadow-sm cursor-pointer
         
         ${isActive
         ? 'bg-white text-foreground shadow-sm' 

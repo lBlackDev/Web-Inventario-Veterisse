@@ -10,11 +10,10 @@ interface TableProps {
 
 const Table = ({inicialProductos}:TableProps) => {
   const [ productos, setProductos ] = useState<TableProps['inicialProductos']>(inicialProductos)
-  // TODO: Implementar logica para el search
+  const [loading, setLoading] = useState<boolean>(false)
   const { categoria, search } = useStoreTableProductos();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
-  // TODO: Implementar la logica para obtener los productos y actualizar el estado de los productos
 
   useEffect(() => {
     if (categoria === "Todos") {
@@ -25,6 +24,18 @@ const Table = ({inicialProductos}:TableProps) => {
     setProductos(filteredProducts)
   // TODO: Implementar logica para el search actualizar el estado de los productos
   }, [categoria])
+
+  useEffect(() => {
+    console.log(search)
+    if (search === "") {
+      setProductos(inicialProductos)
+      return
+    }
+
+    const filteredProducts = inicialProductos.filter(product => product.nombre.toLowerCase().includes(search.toLowerCase()) || product.categoria.toLowerCase().includes(search.toLowerCase()));
+    setProductos(filteredProducts)
+    
+  }, [search])
 
   // Cálculos para la paginación
   const totalPages = Math.ceil(productos.length / itemsPerPage);
