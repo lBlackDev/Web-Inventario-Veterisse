@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header";
 import Table from "@/components/Table";
+import BtnAgregarProducto from "@/components/BtnAgregarProducto";
 import { InfoDashboard } from "@/components/InfoDashboard";
 import Categoria from "@/components/Categoria";
 import { IconPlus } from "@tabler/icons-react";
@@ -23,12 +24,7 @@ const productos = await getProducts();
         <h1 class="text-2xl font-bold tracking-tight">
           Inventario
         </h1>
-        <button
-          class="inline-flex text-white items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 text-primary-foreground h-10 px-4 py-2 bg-teal-600 hover:bg-teal-700"
-          type="button">
-          <IconPlus color="white"/>
-          Agregar Producto
-        </button>
+        <BtnAgregarProducto client:visible/>
       </div>
       <InfoDashboard 
         client:visible 

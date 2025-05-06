@@ -9,13 +9,14 @@ app.use(cors());
 
 const PORT = process.env.PORT || 4000;
 
-const productos = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(productos_json);
-    }, 2000)
-  })
-}
+// const productos = () => {
+//   return new Promise((resolve, reject) => {
+//     // Simulación de una operación asíncrona comentada
+//     setTimeout(() => {
+//       resolve(productos_json);
+//     }, 2000);
+//   });
+// }
 
 app.use(express.json());
 // Test de conexión raiz
