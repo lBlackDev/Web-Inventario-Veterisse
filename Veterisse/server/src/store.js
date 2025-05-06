@@ -1,4 +1,4 @@
-export const productos_json = [
+export const products_json = [
     {
       "id": 1,
       "nombre": "Antibiótico Inyectable VET-A",
