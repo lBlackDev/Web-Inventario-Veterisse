@@ -1,45 +1,39 @@
 require('dotenv').config();
 const express = require('express');
-const cors    = require('cors');
-const { db } = require('./config/firebase');
-const {productos_json} = require('./store.js');
+const cors = require('cors');
+const sql = require('mssql');
+const {sqlConfig, connectToDatabase} = require('./config/VeterisseBD'); // Importar configuración desde el archivo
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-// const productos = () => {
-//   return new Promise((resolve, reject) => {
-//     // Simulación de una operación asíncrona comentada
-//     setTimeout(() => {
-//       resolve(productos_json);
-//     }, 2000);
-//   });
-// }
 
-app.use(express.json());
-// Test de conexión raiz
+// Test de conexión raíz
 app.get('/', async (_, res) => {
-    try {
-      const snapshot = await db.collection('item').get();
-      const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      res.json(items);
+  try {
+    const pool = await connectToDatabase();
+    const result = await pool.request().query('SELECT * FROM products');
+    res.json(result.recordset);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
+  }
+});
 
-      }
-catch (err) {
-
-      console.error(err);
-      res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
-    }
-  });
-
+// Endpoint para productos
 app.get('/productos', async (_, res) => {
-  productos()
-  .then((productos) => {
-    res.json(productos);
-  })
-})
+  try {
+    const pool = await sql.connect(sqlConfig);
+    const result = await pool.request().query('SELECT * FROM productos');
+    res.json(result.recordset);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Fallo al consultar la BD', details: err.message });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 API escuchando en http://localhost:${PORT}/`);
