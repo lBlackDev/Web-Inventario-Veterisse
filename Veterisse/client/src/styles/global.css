@@ -24,10 +24,6 @@ input, input:focus, input:active, input:focus:active {
   outline: none;
 }
 
-@view-transition {
-    navigation: auto;
-}
-
 .loader {
   position: relative;
   width: 40px;

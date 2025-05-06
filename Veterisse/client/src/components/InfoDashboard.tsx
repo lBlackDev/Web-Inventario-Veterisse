@@ -30,7 +30,7 @@ export const InfoDashboard = ({
         product.stock > 0 ? acc + product.stock * product.precio : 0, 0
       )
     })
-  },[productos]) // agregre un array
+  },[productos]) 
 
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
