@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
+import { useStoreTableProductos } from '@/store'
 
 export default function Header() {
   const [searchProduct, setSearchProduct] = useState<string>('');
+  const { setSearch } = useStoreTableProductos()
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     setSearchProduct(query)
+    setSearch(query)
     console.log('Hay cambio en la busqueda')
   };
 

@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 
 interface LinkButtonProps {
@@ -12,6 +13,6 @@ export default function LinkButton({href, children, className="", onClick}:LinkB
   const styleClass = `${className}`
 
   return (
-    <a className={styleClass} href={href} onClick={onClick}>{children}</a>
+    <Link className={styleClass} href={href} onClick={onClick}>{children}</Link>
   )
 }

@@ -1,5 +1,4 @@
-import { create } from 'Zustand';
-import type { ProductosType } from '@/type';
+import {create} from 'zustand'
 
 interface useStoreTableProductosProps {
   categoria: string,

@@ -10,7 +10,7 @@ export const Categoria = ({inicialProductos}:CategoriaProps) => {
   // TODO: implementar filtro de categorias
   const { categoria, setCategoria } = useStoreTableProductos();
 
-  const uniqueCategories = ["Todos", ...new Set(inicialProductos.map((producto) => producto.categoria))];
+  const uniqueCategories = inicialProductos.length > 0 && ["Todos", ...new Set(inicialProductos.map((producto) => producto.categoria))];
 
   const handleCategoria = (categoria: string) => {
     setCategoria(categoria)
@@ -19,6 +19,7 @@ export const Categoria = ({inicialProductos}:CategoriaProps) => {
     <div className="flex items-center justify-between w-full overflow-hidden overflow-x-auto scroll-delgado ">
       <div className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground bg-gray-100 gap-1">
         {
+          uniqueCategories ?
           uniqueCategories.map((text, i) => {
             return <BotonesCategoria 
                     key={`${i}-${text}-boton`} 
@@ -27,6 +28,7 @@ export const Categoria = ({inicialProductos}:CategoriaProps) => {
                     handleCategoria={handleCategoria}
                     />
           })
+          : <div className="text-gray-500">No hay categorias</div>
         }
       </div>
     </div>

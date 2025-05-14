@@ -1,6 +1,5 @@
 import React from 'react'
 import LinkButton from '@/components/LinkButton'
-import { useStoreTableProductos } from '@/store';
 
 interface ButtonNavigationProps {
   className?: string;

@@ -1,9 +1,14 @@
 export type ProductosType = {
   id: string,
-  nombre: string,
-  precio: number,
+  name: string,
+  price: number,
   stock: number,
   img: string,
-  categoria: string,
-  provedor?: string,
+  category: string,
+  provider?: string,
+}
+
+
+export interface ProductosProps {
+  products: ProductosType[]
 }

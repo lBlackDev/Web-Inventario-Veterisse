@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from "react";
 import TableItems from "./TableItems";
 import Spinner from "./Spinner";
@@ -10,10 +11,14 @@ interface TableProps {
 
 const Table = ({inicialProductos}:TableProps) => {
   const [ productos, setProductos ] = useState<TableProps['inicialProductos']>(inicialProductos)
-  const [loading, setLoading] = useState<boolean>(false)
   const { categoria, search } = useStoreTableProductos();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
+
+  // Actualizar productos cuando inicialProductos cambie
+  useEffect(() => {
+    setProductos(inicialProductos)
+  }, [inicialProductos])
 
   useEffect(() => {
     if (categoria === "Todos") {

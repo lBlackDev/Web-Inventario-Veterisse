@@ -1,5 +1,5 @@
 import type { ProductosType } from '@/type';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface InfoDashboardProps {
   productos: ProductosType[];
@@ -14,7 +14,7 @@ interface useStateProps {
   }
 }
 
-export const InfoDashboard = ({
+const InfoDashboard = ({
   productos
 }: InfoDashboardProps) => {
   const [totalProductos, setTotalProductos] = useState<useStateProps["totalProductos"]>();
@@ -112,3 +112,5 @@ export const InfoDashboard = ({
     </div>
   );
 };
+
+export default InfoDashboard;
