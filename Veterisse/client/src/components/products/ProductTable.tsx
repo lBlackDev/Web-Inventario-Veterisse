@@ -13,27 +13,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
 import { ProductsProps } from "@/type"
 import { useStoreTableProductos } from "@/store"
+import PaginationTable from "../PaginationTable"
+import AlertDialogTable from "../AlertDialogTable"
 
 interface ProductTableProps extends ProductsProps {
   filteredProducts: string;
@@ -41,9 +24,10 @@ interface ProductTableProps extends ProductsProps {
 
 export function ProductTable({products, filteredProducts}: ProductTableProps) {
   const [tableProducts, setTableProducts] = useState<ProductsProps["products"]>([])
+  const [productsPagination, setProductsPagination] = useState<ProductsProps["products"]>([])
+
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [productToDelete, setProductToDelete] = useState<string | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
   const {categoryStore}  = useStoreTableProductos()
 
   useEffect(() => {
@@ -52,7 +36,6 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
 
   useEffect(() => {
     filterProductTable()
-    setCurrentPage(1)
   }, [categoryStore, filteredProducts])
 
   const filterProductTable = () => {
@@ -77,49 +60,6 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
     setTableProducts(tableFilterCategory)
   }
 
-  // Configuración de la paginación
-  const productsPerPage = 10
-  const totalPages = Math.ceil(tableProducts.length / productsPerPage)
-  const startIndex = (currentPage - 1) * productsPerPage
-  const endIndex = startIndex + productsPerPage
-  const productsPagination = tableProducts.slice(startIndex, endIndex)
-
-  // Manejadores de paginación
-  const handlePreviousPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1))
-  }
-
-  const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-  }
-
-  const handlePageClick = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
-
-  // Generar array de números de página para mostrar
-  const getPageNumbers = () => {
-    const pageNumbers = []
-    const maxVisiblePages = 3
-    
-    if (totalPages <= maxVisiblePages) {
-      // Si hay 3 páginas o menos, mostrar todas
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i)
-      }
-    } else {
-      // Lógica para páginas cuando hay más de 3
-      if (currentPage <= 2) {
-        pageNumbers.push(1, 2, 3)
-      } else if (currentPage >= totalPages - 1) {
-        pageNumbers.push(totalPages - 2, totalPages - 1, totalPages)
-      } else {
-        pageNumbers.push(currentPage - 1, currentPage, currentPage + 1)
-      }
-    }
-    
-    return pageNumbers
-  }
 
   const handleDeleteClick = (productId: string) => {
     setProductToDelete(productId)
@@ -127,10 +67,14 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
   }
 
   const handleConfirmDelete = () => {
-    // Aquí iría la lógica para eliminar el producto
+    // TODO Implementar: lógica para eliminar el producto
     console.log(`Eliminando producto con ID: ${productToDelete}`)
     setDeleteDialogOpen(false)
     setProductToDelete(null)
+  }
+
+  const handleChangePage = (contentTable: any[]) => {
+    setProductsPagination(contentTable)
   }
 
   return (
@@ -185,13 +129,13 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/products/${product.id}`}>
+                        <Link href={`/products/${product.id}`}>
                           <Eye className="mr-2 h-4 w-4" />
                           Ver detalles
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
-                        <Link href={`/dashboard/products/${product.id}/edit`}>
+                        <Link href={`/products/${product.id}/edit`}>
                           <Edit className="mr-2 h-4 w-4" />
                           Editar
                         </Link>
@@ -213,61 +157,22 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
         </Table>
       </div>
 
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious 
-              onClick={handlePreviousPage}
-              className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-            />
-          </PaginationItem>
-          
-          {getPageNumbers().map((pageNumber) => (
-            <PaginationItem key={pageNumber}>
-              <PaginationLink 
-                onClick={() => handlePageClick(pageNumber)}
-                isActive={currentPage === pageNumber}
-              >
-                {pageNumber}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
-          
-          {totalPages > 3 && currentPage < totalPages - 2 && (
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-          )}
-          
-          <PaginationItem>
-            <PaginationNext 
-              onClick={handleNextPage}
-              className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <PaginationTable 
+        tableData={tableProducts}
+        changePage={handleChangePage}
+      />
 
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esto eliminará permanentemente el producto y todos los datos asociados a
-              él.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Eliminar
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <AlertDialogTable 
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={handleConfirmDelete}
+        description={"Esta acción no se puede deshacer. Esto eliminará permanentemente el producto y todos los datos asociados a él."}
+        title={"¿Estás seguro?"}
+        cancelText={"Cancelar"}
+        actionText={"Eliminar"}
+        variant={"destructive"}
+      />
+
     </div>
   )
 }

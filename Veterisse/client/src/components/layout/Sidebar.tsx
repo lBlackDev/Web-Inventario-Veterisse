@@ -15,6 +15,7 @@ import {
   Tag,
   Truck,
   Users,
+  CornerDownLeft
 } from "lucide-react"
 import {
   Sidebar,
@@ -25,6 +26,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { Button } from "../ui/button"
+import { useRouter } from "next/navigation"
 
 // Definición de los elementos del menú
 const menuItems = [
@@ -36,52 +39,59 @@ const menuItems = [
   {
     title: "Productos",
     icon: Package,
-    href: "/dashboard/products",
+    href: "/products",
   },
   {
     title: "Categorías",
     icon: Tag,
-    href: "/dashboard/categories",
+    href: "/categories",
   },
   {
     title: "Inventario",
     icon: Box,
-    href: "/dashboard/inventory",
+    href: "/inventory",
   },
   
   {
     title: "Proveedores",
     icon: Building2,
-    href: "/dashboard/suppliers",
+    href: "/suppliers",
   },
   {
     title: "Reportes",
     icon: BarChart3,
-    href: "/dashboard/reports",
+    href: "/reports",
   },
   {
     title: "Configuración",
     icon: Settings,
-    href: "/dashboard/settings",
+    href: "/settings",
   },
 ]
 
 export function AppSidebar() {
+  const router = useRouter()
   const pathname = usePathname()
 
+  const handleGoBack = () => {
+    router.back()
+  }
   return (
     <Sidebar>
-      <SidebarHeader className="flex h-14 items-center border-b px-4">
+      <SidebarHeader className="flex h-14 flex-row items-center border-b px-4">
+        <Button variant="ghost" className="h-5 w-5" onClick={handleGoBack}>
+          <CornerDownLeft className="h-5 w-5 "/>
+        </Button>
         <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
           <Package className="h-6 w-6" />
           <span className="text-lg">Inventario</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-0">
           {menuItems.map((item) => (
-            <SidebarMenuItem key={item.href}>
-              <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.title}>
+            <SidebarMenuItem key={item.href} className="m-0 p-0">
+              <SidebarMenuButton className="h-10" asChild isActive={pathname.toLowerCase().includes(item.href.toLocaleLowerCase())} tooltip={item.title}>
                 <Link href={item.href}>
                   <item.icon className="h-5 w-5" />
                   <span>{item.title}</span>

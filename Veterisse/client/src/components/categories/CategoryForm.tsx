@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useActionState } from "react"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -27,13 +27,34 @@ interface CategoryFormProps {
 
 export function CategoryForm({ initialData, isEditing = false }: CategoryFormProps = {}) {
   const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [error, submitAction, isPending] = useActionState(
+    async (_:any, formData: FormData): Promise<boolean | null> => {
+      if(formData.get("name") === "" && formData.get("description") === "") {
+        return true;
+      }
+
+      setTimeout(() => { }, 2000)
+      // TODO CONEXION API: Para modificar la categoria
+      const error = false;
+
+      if (error) {
+        return error
+      }
+
+      router.refresh()
+      router.push("/categories")
+      return null 
+    },
+    null
+  )
+
+  console.log(error)
 
   // Valores por defecto para el formulario
   const defaultValues: Partial<CategoryFormValues> = {
-    name: "",
-    description: "",
-    ...initialData,
+    name: initialData?.name || "",
+    description: initialData?.description || "",
+    ...initialData
   }
 
   const form = useForm<CategoryFormValues>({
@@ -41,28 +62,9 @@ export function CategoryForm({ initialData, isEditing = false }: CategoryFormPro
     defaultValues,
   })
 
-  const onSubmit = async (data: CategoryFormValues) => {
-    setIsSubmitting(true)
-    try {
-      // Aquí iría la lógica para guardar la categoría
-      console.log("Datos de la categoría:", data)
-
-      // Simular un retraso para la operación
-      // TODO Conectar con el backend para guardar la categoría
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Redirigir al listado de categorías
-      router.push("/dashboard/categories")
-    } catch (error) {
-      console.error("Error al guardar la categoría:", error)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form action={submitAction} className="space-y-8">
         <Card>
           <CardContent className="pt-6">
             <div className="space-y-4">
@@ -73,7 +75,7 @@ export function CategoryForm({ initialData, isEditing = false }: CategoryFormPro
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="Nombre de la categoría" {...field} />
+                      <Input placeholder="Nombre de la categoría" {...field}/>
                     </FormControl>
                     <FormDescription>Este nombre se mostrará en los listados de productos.</FormDescription>
                     <FormMessage />
@@ -107,11 +109,11 @@ export function CategoryForm({ initialData, isEditing = false }: CategoryFormPro
         </Card>
 
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/dashboard/categories")}>
+          <Button type="button" variant="outline" onClick={() => router.push("/categories")}>
             Cancelar
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Guardando..." : isEditing ? "Actualizar Categoría" : "Crear Categoría"}
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Guardando..." : isEditing ? "Actualizar Categoría" : "Crear Categoría"}
           </Button>
         </div>
       </form>

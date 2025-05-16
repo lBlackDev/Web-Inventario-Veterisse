@@ -30,7 +30,7 @@ export function RecentMovements() {
           <CardTitle>Movimientos Recientes</CardTitle>
           <CardDescription>Últimos movimientos de inventario registrados</CardDescription>
         </div>
-        <Link href="/dashboard/inventory" className="ml-auto">
+        <Link href="/inventory" className="ml-auto">
           <Button type="button" variant="outline" size="sm" className="ml-auto">
             <FileText className="mr-2 h-4 w-4" />
             Ver todos

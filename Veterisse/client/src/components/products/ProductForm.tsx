@@ -85,7 +85,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Redirigir al listado de productos
-      router.push("/dashboard/products")
+      router.push("/products")
     } catch (error) {
       console.error("Error al guardar el producto:", error)
     } finally {
@@ -363,7 +363,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
         </div>
 
         <div className="flex justify-end gap-4">
-          <Button type="button" variant="outline" onClick={() => router.push("/dashboard/products")}>
+          <Button type="button" variant="outline" onClick={() => router.push("/products")}>
             Cancelar
           </Button>
           <Button type="submit" disabled={isSubmitting}>

@@ -1,6 +1,6 @@
 "use client"
 
-import { Bell, LogOut, Search, Settings, User } from "lucide-react"
+import { Bell, LogOut, Search, Settings, User, CornerDownLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { SidebarTrigger } from "@/components/ui/sidebar"
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export function Header() {
   const router = useRouter()
@@ -31,9 +32,11 @@ export function Header() {
     }
   }
 
+
   return (
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
-      <SidebarTrigger />
+      {/* <SidebarTrigger /> */}
+
 
       <div className="flex flex-1 items-center justify-end gap-2">
         <DropdownMenu>
@@ -70,11 +73,11 @@ export function Header() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => router.push("/dashboard/settings?tab=profile")}>
+            <DropdownMenuItem onClick={() => router.push("/settings?tab=profile")}>
               <User className="mr-2 h-4 w-4" />
               <span>Perfil</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
+            <DropdownMenuItem onClick={() => router.push("/settings")}>
               <Settings className="mr-2 h-4 w-4" />
               <span>Configuración</span>
             </DropdownMenuItem>
