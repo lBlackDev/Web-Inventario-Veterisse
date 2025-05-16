@@ -1,59 +1,45 @@
-import type { Metadata } from "next"
+"use client"
+import { use } from "react"
 import { notFound } from "next/navigation"
-import { CategoryForm } from "@/components/categories/category-form"
-
-// Datos de ejemplo para categorías
-const categories = [
-  {
-    id: "1",
-    name: "Electrónicos",
-    description: "Productos electrónicos como laptops, tablets y smartphones",
-  },
-  {
-    id: "2",
-    name: "Periféricos",
-    description: "Accesorios para computadoras como teclados, mouse y monitores",
-  },
-  {
-    id: "3",
-    name: "Componentes",
-    description: "Componentes internos para computadoras como discos duros, memorias y procesadores",
-  },
-  {
-    id: "4",
-    name: "Accesorios",
-    description: "Accesorios varios como cables, adaptadores y fundas",
-  },
-  {
-    id: "5",
-    name: "Oficina",
-    description: "Productos para oficina como impresoras, escáneres y proyectores",
-  },
-]
-
-export const metadata: Metadata = {
-  title: "Editar Categoría | Sistema de Inventario",
-  description: "Modificar una categoría existente",
-}
+import { CategoryForm } from "@/components/categories/CategoryForm"
+import { CategoriesType, CategoryProps } from "@/type"
+import { useEffect, useState } from "react"
+import { getCategories } from "@/api/category"
 
 export default function EditCategoryPage({ params }: { params: { id: string } }) {
-  const category = categories.find((c) => c.id === params.id)
+  const [category, setCategory] = useState<CategoriesType | undefined>(undefined)
+  const categoryId = use(Promise.resolve(params)).id
 
-  if (!category) {
-    notFound()
-  }
+  useEffect(() => {
+    getCategories()
+      .then((res:CategoryProps['categories']) => {
+        if (!res) {
+          notFound()
+        }
+        const categoryFinder = res.find((category) => category.category === params.id)
+        console.log(categoryFinder)
+        if (!categoryFinder) {
+          notFound()
+        }
+
+        setCategory(categoryFinder)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [categoryId])
 
   // Convertir la categoría al formato esperado por el formulario
   const categoryData = {
-    name: category.name,
-    description: category.description || "",
+    name: category?.category || "",
+    description: "",
   }
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Editar Categoría</h1>
-        <p className="text-muted-foreground">Modifica la información de la categoría {category.name}</p>
+        <p className="text-muted-foreground">Modifica la información de la categoría {category?.category}</p>
       </div>
 
       <CategoryForm initialData={categoryData} isEditing />

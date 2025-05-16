@@ -1,19 +1,21 @@
 import { ArrowDownIcon, ArrowUpIcon, DollarSign, Package, ShoppingCart, Truck } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { formatCurrency } from "@/lib/utils"
-import { ProductosProps } from "@/type"
+import { ProductsProps } from "@/type"
 
-interface StatsCardsProps extends ProductosProps {
+interface StatsCardsProps extends ProductsProps {
 }
 
 export function StatsCards({products}: StatsCardsProps) {
 
+  // Verificar si products es un array y no está vacío
   const [valueInventory, productsTotal] = products 
+  // Cuando llegan los productos hacer esta accion
   ? products.reduce((acc, product) => {
-    acc[0] += product.precio * product.stock; // Calculate inventory value
+    acc[0] += product.price * product.stock; // Calculate inventory value
     acc[1] += 1; // Count total products
     return acc;
-  }, [0, 0, 0, 0])
+  }, [0, 0])
   : [0, 0]
 
   console.log(products)

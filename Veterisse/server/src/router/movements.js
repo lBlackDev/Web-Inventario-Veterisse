@@ -12,7 +12,7 @@ const getMovements = () => {
   });
 }
 
-movementsRouter.get('/', async (req, res) => {
+movementsRouter.get('/movements', async (req, res) => {
   try {
     getMovements()
       .then(movements => {

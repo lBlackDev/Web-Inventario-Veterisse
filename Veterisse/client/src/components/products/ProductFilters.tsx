@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { Search, SlidersHorizontal, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -8,23 +7,33 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { useStoreTableProductos } from "@/store"
 
 // Datos de ejemplo para categorías
-const categories = ["Todas", "Electrónicos", "Periféricos", "Componentes", "Accesorios", "Oficina", "Otros"]
 
-export function ProductFilters() {
+interface ProductFiltersProps {
+  categories: string[],
+  handleSearch: (query: string) => void
+}
+
+export function ProductFilters({categories, handleSearch}: ProductFiltersProps) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("Todas")
+  const {categoryStore, setCategoryStore} = useStoreTableProductos()
   const [minPrice, setMinPrice] = useState("")
   const [maxPrice, setMaxPrice] = useState("")
   const [stockFilter, setStockFilter] = useState("all")
 
   const handleClearFilters = () => {
     setSearchQuery("")
-    setSelectedCategory("Todas")
+    setCategoryStore("Todos")
     setMinPrice("")
     setMaxPrice("")
     setStockFilter("all")
+  }
+
+  const handleSearchQuery = (search: string) => {
+    setSearchQuery(search)
+    handleSearch(search)
   }
 
   return (
@@ -36,12 +45,12 @@ export function ProductFilters() {
           placeholder="Buscar por nombre, código o descripción..."
           className="w-full pl-8"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) => handleSearchQuery(e.target.value)}
         />
       </div>
 
       <div className="flex items-center gap-2">
-        <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+        <Select value={categoryStore} onValueChange={setCategoryStore}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Categoría" />
           </SelectTrigger>
@@ -67,7 +76,7 @@ export function ProductFilters() {
             <div className="mt-6 space-y-6">
               <div className="space-y-2">
                 <Label>Categoría</Label>
-                <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <Select value={categoryStore} onValueChange={setCategoryStore}>
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar categoría" />
                   </SelectTrigger>
@@ -80,7 +89,8 @@ export function ProductFilters() {
                   </SelectContent>
                 </Select>
               </div>
-
+              
+              {/* TODO Falta: Agregar funcionalidad de filtros */}
               <div className="space-y-2">
                 <Label>Rango de precio</Label>
                 <div className="flex items-center gap-2">

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { Edit, MoreHorizontal, Trash } from "lucide-react"
+import { Edit, MoreHorizontal, Package, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -23,56 +23,18 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
+import { CategoryProps } from "@/type"
+import { useStoreTableProductos } from "@/store"
 
 // Datos de ejemplo para categorías
-const categories = [
-  {
-    id: "1",
-    name: "Electrónicos",
-    description: "Productos electrónicos como laptops, tablets y smartphones",
-    productsCount: 15,
-  },
-  {
-    id: "2",
-    name: "Periféricos",
-    description: "Accesorios para computadoras como teclados, mouse y monitores",
-    productsCount: 12,
-  },
-  {
-    id: "3",
-    name: "Componentes",
-    description: "Componentes internos para computadoras como discos duros, memorias y procesadores",
-    productsCount: 8,
-  },
-  {
-    id: "4",
-    name: "Accesorios",
-    description: "Accesorios varios como cables, adaptadores y fundas",
-    productsCount: 20,
-  },
-  {
-    id: "5",
-    name: "Oficina",
-    description: "Productos para oficina como impresoras, escáneres y proyectores",
-    productsCount: 6,
-  },
-  {
-    id: "6",
-    name: "Redes",
-    description: "Equipos de redes como routers, switches y access points",
-    productsCount: 5,
-  },
-  {
-    id: "7",
-    name: "Audio",
-    description: "Equipos de audio como auriculares, parlantes y micrófonos",
-    productsCount: 10,
-  },
-]
 
-export function CategoryTable() {
+interface CategoryTableProps extends CategoryProps {
+}
+
+export function CategoryTable({categories}: CategoryTableProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [categoryToDelete, setCategoryToDelete] = useState<string | null>(null)
+  const {setCategoryStore} = useStoreTableProductos()
 
   const handleDeleteClick = (categoryId: string) => {
     setCategoryToDelete(categoryId)
@@ -81,9 +43,14 @@ export function CategoryTable() {
 
   const handleConfirmDelete = () => {
     // Aquí iría la lógica para eliminar la categoría
+    // TODO Implementar la lógica para eliminar la categoría
     console.log(`Eliminando categoría con ID: ${categoryToDelete}`)
     setDeleteDialogOpen(false)
     setCategoryToDelete(null)
+  }
+
+  const handleViewProducts = (category:string) => {
+    setCategoryStore(category)
   }
 
   return (
@@ -99,11 +66,11 @@ export function CategoryTable() {
         </TableHeader>
         <TableBody>
           {categories.map((category) => (
-            <TableRow key={category.id}>
-              <TableCell className="font-medium">{category.name}</TableCell>
-              <TableCell className="hidden max-w-md truncate md:table-cell">{category.description}</TableCell>
+            <TableRow key={`${category.id}-${category.category}`}>
+              <TableCell className="font-medium">{category.category}</TableCell>
+              <TableCell className="hidden max-w-md truncate md:table-cell">No hay</TableCell>
               <TableCell className="hidden md:table-cell">
-                <Badge variant="outline">{category.productsCount}</Badge>
+                <Badge variant="outline">{category.quantity}</Badge>
               </TableCell>
               <TableCell className="text-right">
                 <DropdownMenu>
@@ -115,15 +82,21 @@ export function CategoryTable() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href={`/dashboard/categories/${category.id}/edit`}>
+                      <Link href={`/dashboard/categories/${category.category}/edit`}>
                         <Edit className="mr-2 h-4 w-4" />
                         Editar
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/dashboard/products`} onClick={() => handleViewProducts(category.category)}>
+                        <Package className="mr-2 h-4 w-4" />
+                        Ver Productos
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       className="text-destructive focus:text-destructive"
-                      onClick={() => handleDeleteClick(category.id)}
+                      onClick={() => handleDeleteClick(`${category.id}-${category.category}`)}
                     >
                       <Trash className="mr-2 h-4 w-4" />
                       Eliminar

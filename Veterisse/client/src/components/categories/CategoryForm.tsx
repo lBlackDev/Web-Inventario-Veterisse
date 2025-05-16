@@ -48,6 +48,7 @@ export function CategoryForm({ initialData, isEditing = false }: CategoryFormPro
       console.log("Datos de la categoría:", data)
 
       // Simular un retraso para la operación
+      // TODO Conectar con el backend para guardar la categoría
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Redirigir al listado de categorías

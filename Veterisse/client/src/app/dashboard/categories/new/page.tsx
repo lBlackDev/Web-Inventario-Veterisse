@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { CategoryForm } from "@/components/categories/category-form"
+import { CategoryForm } from "@/components/categories/CategoryForm"
 
 export const metadata: Metadata = {
   title: "Nueva Categoría | Sistema de Inventario",

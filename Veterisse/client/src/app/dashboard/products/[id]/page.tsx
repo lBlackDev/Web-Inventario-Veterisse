@@ -3,7 +3,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ProductDetails } from "@/components/products/product-details"
+import { ProductDetails } from "@/components/products/ProductDetails"
 
 // Datos de ejemplo para productos
 const products = [

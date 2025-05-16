@@ -35,15 +35,6 @@ export function Header() {
     <header className="sticky top-0 z-10 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
       <SidebarTrigger />
 
-      <div className="relative hidden flex-1 md:block">
-        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-        <Input
-          type="search"
-          placeholder="Buscar..."
-          className="w-full max-w-sm rounded-lg bg-background pl-8 shadow-none md:max-w-md lg:max-w-lg"
-        />
-      </div>
-
       <div className="flex flex-1 items-center justify-end gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

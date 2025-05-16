@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -32,154 +32,94 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { ProductsProps } from "@/type"
+import { useStoreTableProductos } from "@/store"
 
-// Datos de ejemplo para productos
-const products = [
-  {
-    id: "1",
-    code: "PROD-001",
-    name: "Laptop HP Pavilion",
-    description: "Laptop HP Pavilion 15.6 pulgadas, 8GB RAM, 512GB SSD",
-    category: "Electrónicos",
-    stock: 15,
-    minStock: 5,
-    price: 899.99,
-    costPrice: 750.0,
-    unit: "Unidad",
-    location: "Almacén A",
-    supplier: "HP Inc.",
-  },
-  {
-    id: "2",
-    code: "PROD-002",
-    name: 'Monitor Dell 27"',
-    description: "Monitor Dell 27 pulgadas, Full HD, IPS",
-    category: "Periféricos",
-    stock: 8,
-    minStock: 3,
-    price: 249.99,
-    costPrice: 180.0,
-    unit: "Unidad",
-    location: "Almacén B",
-    supplier: "Dell Technologies",
-  },
-  {
-    id: "3",
-    code: "PROD-003",
-    name: "Teclado Mecánico RGB",
-    description: "Teclado mecánico con retroiluminación RGB",
-    category: "Periféricos",
-    stock: 20,
-    minStock: 5,
-    price: 89.99,
-    costPrice: 60.0,
-    unit: "Unidad",
-    location: "Almacén A",
-    supplier: "Logitech",
-  },
-  {
-    id: "4",
-    code: "PROD-004",
-    name: "Mouse Inalámbrico",
-    description: "Mouse inalámbrico ergonómico",
-    category: "Periféricos",
-    stock: 25,
-    minStock: 10,
-    price: 39.99,
-    costPrice: 25.0,
-    unit: "Unidad",
-    location: "Almacén A",
-    supplier: "Logitech",
-  },
-  {
-    id: "5",
-    code: "PROD-005",
-    name: "Disco SSD 1TB",
-    description: "Disco de estado sólido 1TB SATA",
-    category: "Componentes",
-    stock: 12,
-    minStock: 5,
-    price: 129.99,
-    costPrice: 95.0,
-    unit: "Unidad",
-    location: "Almacén C",
-    supplier: "Samsung",
-  },
-  {
-    id: "6",
-    code: "PROD-006",
-    name: "Memoria RAM 16GB",
-    description: "Memoria RAM DDR4 16GB 3200MHz",
-    category: "Componentes",
-    stock: 18,
-    minStock: 8,
-    price: 79.99,
-    costPrice: 60.0,
-    unit: "Unidad",
-    location: "Almacén C",
-    supplier: "Corsair",
-  },
-  {
-    id: "7",
-    code: "PROD-007",
-    name: "Impresora Láser",
-    description: "Impresora láser monocromática",
-    category: "Oficina",
-    stock: 5,
-    minStock: 2,
-    price: 199.99,
-    costPrice: 150.0,
-    unit: "Unidad",
-    location: "Almacén B",
-    supplier: "HP Inc.",
-  },
-  {
-    id: "8",
-    code: "PROD-008",
-    name: "Webcam HD",
-    description: "Webcam HD 1080p con micrófono",
-    category: "Periféricos",
-    stock: 10,
-    minStock: 5,
-    price: 59.99,
-    costPrice: 40.0,
-    unit: "Unidad",
-    location: "Almacén A",
-    supplier: "Logitech",
-  },
-  {
-    id: "9",
-    code: "PROD-009",
-    name: "Auriculares Bluetooth",
-    description: "Auriculares Bluetooth con cancelación de ruido",
-    category: "Accesorios",
-    stock: 15,
-    minStock: 5,
-    price: 149.99,
-    costPrice: 100.0,
-    unit: "Unidad",
-    location: "Almacén B",
-    supplier: "Sony",
-  },
-  {
-    id: "10",
-    code: "PROD-010",
-    name: "Router WiFi",
-    description: "Router WiFi de doble banda",
-    category: "Electrónicos",
-    stock: 7,
-    minStock: 3,
-    price: 89.99,
-    costPrice: 65.0,
-    unit: "Unidad",
-    location: "Almacén A",
-    supplier: "TP-Link",
-  },
-]
+interface ProductTableProps extends ProductsProps {
+  filteredProducts: string;
+}
 
-export function ProductTable() {
+export function ProductTable({products, filteredProducts}: ProductTableProps) {
+  const [tableProducts, setTableProducts] = useState<ProductsProps["products"]>([])
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [productToDelete, setProductToDelete] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const {categoryStore}  = useStoreTableProductos()
+
+  useEffect(() => {
+    setTableProducts(products)
+  }, [products])
+
+  useEffect(() => {
+    filterProductTable()
+    setCurrentPage(1)
+  }, [categoryStore, filteredProducts])
+
+  const filterProductTable = () => {
+    let tableFilterCategory = categoryStore.toLowerCase() != "todos"
+    // Solo va ser este filtro cuando cambie de "Todos"
+     ? products.filter((product) => 
+        product.category.toLowerCase().includes(categoryStore.toLowerCase())
+      )
+    : products
+
+    tableFilterCategory = tableFilterCategory.filter((product) => {
+      const {category, name} = product
+
+      return (
+        name.toLowerCase().startsWith(filteredProducts.toLowerCase()) 
+        || categoryStore === "Todos" 
+        && category.toLowerCase().startsWith(filteredProducts.toLocaleLowerCase())
+      )
+    })
+
+    console.log(tableFilterCategory)
+    setTableProducts(tableFilterCategory)
+  }
+
+  // Configuración de la paginación
+  const productsPerPage = 10
+  const totalPages = Math.ceil(tableProducts.length / productsPerPage)
+  const startIndex = (currentPage - 1) * productsPerPage
+  const endIndex = startIndex + productsPerPage
+  const productsPagination = tableProducts.slice(startIndex, endIndex)
+
+  // Manejadores de paginación
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+  }
+
+  const handlePageClick = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
+
+  // Generar array de números de página para mostrar
+  const getPageNumbers = () => {
+    const pageNumbers = []
+    const maxVisiblePages = 3
+    
+    if (totalPages <= maxVisiblePages) {
+      // Si hay 3 páginas o menos, mostrar todas
+      for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i)
+      }
+    } else {
+      // Lógica para páginas cuando hay más de 3
+      if (currentPage <= 2) {
+        pageNumbers.push(1, 2, 3)
+      } else if (currentPage >= totalPages - 1) {
+        pageNumbers.push(totalPages - 2, totalPages - 1, totalPages)
+      } else {
+        pageNumbers.push(currentPage - 1, currentPage, currentPage + 1)
+      }
+    }
+    
+    return pageNumbers
+  }
 
   const handleDeleteClick = (productId: string) => {
     setProductToDelete(productId)
@@ -208,9 +148,9 @@ export function ProductTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {productsPagination.map((product) => (
               <TableRow key={product.id}>
-                <TableCell className="font-medium">{product.code}</TableCell>
+                <TableCell className="font-medium">{product.id}</TableCell>
                 <TableCell>
                   <div>
                     <div className="font-medium">{product.name}</div>
@@ -276,24 +216,34 @@ export function ProductTable() {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious 
+              onClick={handlePreviousPage}
+              className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+            />
           </PaginationItem>
+          
+          {getPageNumbers().map((pageNumber) => (
+            <PaginationItem key={pageNumber}>
+              <PaginationLink 
+                onClick={() => handlePageClick(pageNumber)}
+                isActive={currentPage === pageNumber}
+              >
+                {pageNumber}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          
+          {totalPages > 3 && currentPage < totalPages - 2 && (
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+          )}
+          
           <PaginationItem>
-            <PaginationLink href="#" isActive>
-              1
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">2</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext 
+              onClick={handleNextPage}
+              className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

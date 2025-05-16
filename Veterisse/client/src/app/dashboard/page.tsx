@@ -4,12 +4,12 @@ import { StatsCards } from "@/components/dashboard/StatsCards"
 import { InventorySummary } from "@/components/dashboard/InventorySumary"
 import { RecentMovements } from "@/components/dashboard/RecentMovements"
 import { QuickActions } from "@/components/dashboard/QuickActions"
-import { ProductosType } from "@/type"
-import { getProducts } from "@/api"
+import { ProductsType } from "@/type"
+import { getProducts } from "@/api/products"
 
 
 export default function DashboardPage() {
-  const [products, setProducts] = useState<ProductosType[]>([])
+  const [products, setProducts] = useState<ProductsType[]>([])
 
   useEffect(() => {
     getProducts()

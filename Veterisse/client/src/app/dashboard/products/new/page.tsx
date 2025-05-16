@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { ProductForm } from "@/components/products/product-form"
+import { ProductForm } from "@/components/products/ProductForm"
 
 export const metadata: Metadata = {
   title: "Nuevo Producto | Sistema de Inventario",

@@ -1,15 +1,33 @@
-import type { Metadata } from "next"
+"use client"
+// import type { Metadata } from "next"
 import Link from "next/link"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { CategoryTable } from "@/components/categories/category-table"
+import { CategoryTable } from "@/components/categories/CategoryTable"
+import { useEffect, useState } from "react"
+import { getCategories } from "@/api/category"
+import type { CategoriesType } from "@/type"
 
-export const metadata: Metadata = {
-  title: "Categorías | Sistema de Inventario",
-  description: "Gestión de categorías de productos",
-}
+// export const metadata: Metadata = {
+//   title: "Categorías | Sistema de Inventario",
+//   description: "Gestión de categorías de productos",
+// }
+
+
 
 export default function CategoriesPage() {
+  const [categories, setCategories] = useState<CategoriesType[]>([])
+
+  useEffect(() => {
+    getCategories()
+      .then((res) => {
+       setCategories(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -23,7 +41,7 @@ export default function CategoriesPage() {
       </div>
 
       <div className="rounded-md border">
-        <CategoryTable />
+        <CategoryTable categories={categories}/>
       </div>
     </div>
   )

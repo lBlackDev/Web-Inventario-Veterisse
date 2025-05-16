@@ -2,18 +2,21 @@ import { AlertCircle } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Badge } from "@/components/ui/badge"
-import { ProductosProps } from "@/type"
+import { ProductsProps } from "@/type"
 
 // Datos de ejemplo para productos con bajo stock
 
-interface InventorySumaryProps extends ProductosProps {
+interface InventorySumaryProps extends ProductsProps {
 }
 
-// TODO Implementar: stock de productos 
 export function InventorySummary({products}: InventorySumaryProps) {
 
-  const lowStockProducts = products.filter((product) => product.stock < 10)
+  const lowStockProducts = products.filter((product) => product.stock < 10 )
 
+  console.log(products)
+
+
+  // TODO Implemnentar: Respuesta al no tener stock bajos
   return (
     <Card>
       <CardHeader className="flex flex-row items-center">
@@ -28,7 +31,9 @@ export function InventorySummary({products}: InventorySumaryProps) {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {lowStockProducts.map((product) => (
+          {lowStockProducts.slice(0, 5).map((product) => {
+            const minStock = 10
+            return (
             <div key={product.id} className="grid gap-2">
               <div className="flex items-center justify-between">
                 <div>
@@ -37,25 +42,24 @@ export function InventorySummary({products}: InventorySumaryProps) {
                     <Badge variant="outline" className="text-xs">
                       {product.category}
                     </Badge>
-                    <span className="text-xs text-muted-foreground">Stock mínimo: 10</span>
+                    <span className="text-xs text-muted-foreground">Stock mínimo: {minStock}</span>
                   </div>
                 </div>
                 <div className="font-medium">{product.stock} unidades</div>
               </div>
               <Progress
-                value={(product.stock / 10) * 100}
+                value={(product.stock / minStock) * 100}
                 className="h-2 "
-                // TODO: Cambiar el color del indicador según el stock
                 indicatorClassName={
-                  product.stock < 10 * 0.3
+                  product.stock < minStock * 0.3
                     ? "bg-destructive"
-                    : product.stock < 10 * 0.6
+                    : product.stock < minStock * 0.6
                       ? "bg-amber-500"
                       : "bg-amber-400"
                 }
               />
             </div>
-          ))}
+          )})}
         </div>
       </CardContent>
     </Card>

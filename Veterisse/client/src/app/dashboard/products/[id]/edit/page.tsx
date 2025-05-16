@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { ProductForm } from "@/components/products/product-form"
+import { ProductForm } from "@/components/products/ProductForm"
 
 // Datos de ejemplo para productos
 const products = [

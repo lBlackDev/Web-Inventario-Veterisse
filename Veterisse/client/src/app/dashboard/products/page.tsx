@@ -1,16 +1,34 @@
-import type { Metadata } from "next"
+"use client"
 import Link from "next/link"
 import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { ProductTable } from "@/components/products/product-table"
-import { ProductFilters } from "@/components/products/product-filters"
-
-export const metadata: Metadata = {
-  title: "Productos | Sistema de Inventario",
-  description: "Gestión de productos del sistema de inventario",
-}
+import { ProductTable } from "@/components/products/ProductTable"
+import { ProductFilters } from "@/components/products/ProductFilters"
+import { useEffect, useState } from "react"
+import { ProductsProps } from "@/type"
+import { getProducts } from "@/api/products"
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState<ProductsProps["products"]>([])
+  const [filteredProducts, setFilteredProducts] = useState<string>("")
+
+  useEffect(() => {
+    getProducts()
+      .then((res) => {
+        setProducts(res)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }, [])
+
+  const handleSearch = (searchTerm: string) => {
+    setFilteredProducts(searchTerm)
+  }
+
+  const categories = ["Todos", ...new Set(products.map((product) => product.category))]
+  
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -23,8 +41,8 @@ export default function ProductsPage() {
         </Button>
       </div>
 
-      <ProductFilters />
-      <ProductTable />
+      <ProductFilters categories={categories} handleSearch={handleSearch}/>
+      <ProductTable products={products} filteredProducts={filteredProducts}/>
     </div>
   )
 }
