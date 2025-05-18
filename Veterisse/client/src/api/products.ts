@@ -1,17 +1,10 @@
-import { ProductsProps } from "@/type";
-import axios from "axios";
+import { useAxiosGet } from "@/hooks/useAxios";
 
 const api_url = "http://localhost:4000/" 
 
-const getProducts = async (): Promise<ProductsProps['products']> => {
-  return axios.get(api_url + "productsTest")
-    .then((res) => res.data)
-    .catch(() => {
-      console.error("Error al obtener los productos")
-      return []
-    })
-}
+const dataProducts = useAxiosGet(api_url + "productsTest")
+export const getProducts = () => {
+  const data = dataProducts.read()
 
-export {
-  getProducts
+  return { products: Array.isArray(data.response) ? data.response : [], error: data.status }
 }
