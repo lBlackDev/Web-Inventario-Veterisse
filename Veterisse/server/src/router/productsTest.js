@@ -1,12 +1,17 @@
 const productsTest = require('express').Router();
-
-const { products_json } = require('../store'); 
+const {addProduct} = require('../utils/newProducts')
+// const { products_json } = require('../store'); 
+const products_json = require('../store/products.json')
 
 
 const products = () => {
   return new Promise((resolve, reject) => {
     try {
-      resolve(products_json);
+      setTimeout(() => {
+
+        resolve(products_json);
+        console.log(products_json)
+      }, 10); // Simula una demora de 1 segundo en la obtención de los produc
     } catch (error) {
       reject(error);
     }
@@ -15,80 +20,50 @@ const products = () => {
 
 productsTest.get('/', (req, res) => {
   products()
+    .then(data => JSON.parse(JSON.stringify(data)))
     .then((data) => {
       res.status(200).json(data);
     })
     .catch((error) => {
-      res.status(500).json({ error: 'Error al obtener los productos', details: error.message });
+      res.status(500).json({ error: 'Error al obtener los productos', details: error.message })
+      console.log(error);
     });
 })
 
 productsTest.post('/', (req, res) => {
+  const data = req.body
 
-  const {formatPrice, formatPriceOption, formatText, checkEmail, table} = req.body
-
-  let tableVerify = table 
-
-  if(!table) {
-    res.status(400).json({
-      status: 400,
-      msg: "No estas enviando todo lo requerido",
-    })
-    return
+  if (!data) {
+    res.status(400).json({ error: 'No se proporcionaron datos' });
+    return;
   }
 
+  console.log(data)
 
-  if (formatPrice) {
-    try{
-
-      tableVerify = tableVerify.map((table) => {
-        let priceVerify = typeof table.price === typeof Number 
-          ? table.price
-          : /^\d+$/.test(table.price) 
-          ? Number(table.price)
-          : false
-          
-        
-        const priceFormat =  new Intl.NumberFormat(formatPriceOption.locale || "es-CL", {
-          style: "currency",
-          currency: formatPriceOption.moneda || "CLP",
-          minimumFractionDigits: 2, 
-          maximumFractionDigits: 2,
-        }).format(priceVerify || 0)
-
-        return {...table, price: priceFormat, priceError: !priceVerify}
-      })
-    }
-    catch(error){
-      res.status(400).json({
-        msg: "Se encontro un error con la configuracion para el formato de los numeros",
-        status: 400,
-        error: error
-      })
-    }
+  const newProduct = {
+    id: data.id,
+    code: data.code,
+    name: data.name,
+    img: data.img,
+    description: data.description,
+    category: data.category,
+    stock: data.stock,
+    minStock: data.minStock,
+    price: data.price,
+    costPrice: data.costPrice,
+    supplier: data.supplier,
+    active: data.active,
   }
 
-  if (formatText) {
-    tableVerify = tableVerify.map((table) =>  ({...table, nombre: table.nombre.charAt(0).toUpperCase().concat(table.nombre.slice(1, table.nombre.lenght))}) )
+  const product = addProduct(newProduct)
+
+  if (product) {
+    res.status(200).json(product);
+  } else {
+    res.status(500).json({ error: 'Error al agregar el producto' });
   }
-
-  if (checkEmail) {
-    tableVerify = tableVerify.map((table) => {
-      const email = table.email
-
-      const verify = /[\w]+@(gmail\.com|hotmail\.com)/.test(email)
-
-      return verify 
-        ? {...table, email, emailError: false}
-        : {...table, email, emailError: true}
-    })
-  }
-
-  res.json({
-    status: 200,
-    msg: "Funciona perfectamente",
-    table: tableVerify
-  })
 })
+
+
 
 module.exports = productsTest;
