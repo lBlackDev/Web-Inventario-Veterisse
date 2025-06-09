@@ -9,7 +9,7 @@ export const products_json = [
     minStock: 6,
     price: 22.50,
     costPrice: 14.00,
-    supplier: "Laboratorio Veterinario A"
+    supplier: "Laboratorio Veterinario A",
   },
   {
     id: "2",

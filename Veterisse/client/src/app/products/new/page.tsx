@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { ProductForm } from "@/components/products/ProductForm"
+import { getCategories } from "@/api/category"
 
 export const metadata: Metadata = {
   title: "Nuevo Producto | Sistema de Inventario",

@@ -1,24 +1,31 @@
-const categoriesRouter = require('express').Router();
-const { products_json } = require('../store.js');
+import express from 'express';
+import productsJson from '../store/products.json';
+
+const categoriesRouter = express.Router();
 
 
-const getCategories = () => {
+const getCategories = (): Promise<Product[]> => {
   return new Promise((resolve, reject) => {
     try {
-      resolve(products_json);
+      resolve(productsJson as Product[]);
     } catch (error) {
       reject(error);
     }
   });
 }
 
-categoriesRouter.get('', async (req, res) => {
+interface Product {
+  category: string;
+  quantity?: number;
+}
+
+categoriesRouter.get('', async (_, res) => {
   try {
     getCategories()
-      .then(products => {
-        const categories = products.reduce((acc, product) => {
-          const existingCategory = acc.find(item => item.category === product.category);
-          if (existingCategory) {
+      .then((products: Product[]) => {
+        const categories = products.reduce<Product[]>((acc, product) => {
+          const existingCategory: Product | any = acc.find((item: Product) => item.category === product.category);
+          if (existingCategory && existingCategory.quantity) {
             existingCategory.quantity += 1;
           } else {
             acc.push({ category: product.category, quantity: 1 });
@@ -38,4 +45,4 @@ categoriesRouter.get('', async (req, res) => {
   }
 })
 
-module.exports = categoriesRouter;
+export default categoriesRouter;

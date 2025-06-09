@@ -1,27 +1,16 @@
 import Link from "next/link"
-import { useState, useEffect } from "react"
 import { ArrowDown, ArrowUp, Package, FileText } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { formatDate } from "@/lib/utils"
+import { MovementsType } from "@/type"
 import { getMovement } from "@/api/inventory"
-import { MovementsProps } from "@/type"
 
 export function RecentMovements() {
-  const [movements, setMovements] = useState<MovementsProps["movements"]>([])
+  const {data: movements } = getMovement()
 
-  const recentMovements = movements ? movements.slice(0, 5) : []
-
-  useEffect(() => {
-    getMovement()
-      .then((res) => {
-       setMovements(res)
-      })
-      .catch((err) => {
-       console.log(err)
-      })
-  }, [])
+  const recentMovements: MovementsType[] = movements ? movements.slice(0, 5) : []
 
   return (
     <Card>

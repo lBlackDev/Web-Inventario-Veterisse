@@ -7,7 +7,6 @@ interface StatsCardsProps extends ProductsProps {
 }
 
 export function StatsCards({products}: StatsCardsProps) {
-
   // Verificar si products es un array y no está vacío
   const [valueInventory, productsTotal] = products 
   // Cuando llegan los productos hacer esta accion

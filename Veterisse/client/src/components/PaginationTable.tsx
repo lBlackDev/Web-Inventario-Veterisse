@@ -25,14 +25,14 @@ export default function PaginationTable({
 
   // Configuración de la paginación
   const productsPerPage = rangeContent
-  const totalPages = Math.ceil(tableData.length / productsPerPage)
+  const totalPages = Math.ceil(tableData?.length / productsPerPage)
   const startIndex = (currentPage - 1) * productsPerPage
   const endIndex = startIndex + productsPerPage
-  const productsPagination = tableData.slice(startIndex, endIndex)
+  const productsPagination = tableData?.slice(startIndex, endIndex)
 
   useEffect(() => {
     changePage(productsPagination)
-  }, [currentPage, tableData.length])
+  }, [currentPage, tableData?.length])
 
   useEffect(() => {
     setCurrentPage(1)

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useActionState, useState } from "react"
 import { useRouter } from "next/navigation"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
@@ -13,6 +13,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { getCategories } from "@/api/category"
+import { useAxios } from "@/hooks/useAxios"
+import { newProduct } from "@/api/products"
+import { useProduct } from "@/hooks/useProduct"
+import Image from "next/image"
 
 // Esquema de validación para el formulario
 const productFormSchema = z.object({
@@ -21,7 +26,7 @@ const productFormSchema = z.object({
   description: z.string().optional(),
   category: z.string().min(1, "La categoría es obligatoria"),
   unit: z.string().min(1, "La unidad de medida es obligatoria"),
-  initialStock: z.coerce.number().min(0, "El stock no puede ser negativo"),
+  stock: z.coerce.number().min(0, "El stock no puede ser negativo"),
   minStock: z.coerce.number().min(0, "El stock mínimo no puede ser negativo"),
   costPrice: z.coerce.number().min(0, "El precio de compra no puede ser negativo"),
   price: z.coerce.number().min(0, "El precio de venta no puede ser negativo"),
@@ -29,16 +34,10 @@ const productFormSchema = z.object({
   location: z.string().optional(),
   taxable: z.boolean().default(true).optional(),
   active: z.boolean().default(true).optional(),
+  img: z.string().optional(),
 })
 
 type ProductFormValues = z.infer<typeof productFormSchema>
-
-// Datos de ejemplo para categorías y unidades
-const categories = ["Electrónicos", "Periféricos", "Componentes", "Accesorios", "Oficina", "Otros"]
-
-const units = ["Unidad", "Caja", "Paquete", "Kg", "Litro", "Metro", "Docena"]
-
-const locations = ["Almacén A", "Almacén B", "Almacén C", "Estantería 1", "Estantería 2"]
 
 const suppliers = ["HP Inc.", "Dell Technologies", "Logitech", "Samsung", "Corsair", "Sony", "TP-Link"]
 
@@ -50,23 +49,44 @@ interface ProductFormProps {
 
 export function ProductForm({ initialData, isEditing = false }: ProductFormProps = {}) {
   const router = useRouter()
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const {data: categories} = getCategories()
+  const { newProduct } = useProduct()
+  const [imgProduct, setImgProduct] = useState<string | null>("")
+
+  const [error, submitAction, isSubmitting] = useActionState(
+    async (_:any, formData: FormData): Promise<boolean | null> => {
+      if(formData.get("name") === "" && formData.get("description") === "") {
+        return true
+      }
+
+      const product = {
+        name: formData.get("name"),
+        img: '',
+        description: formData.get("description"),
+        category: formData.get("category"),
+        stock: Number(formData.get("stock")),
+        minStock: Number(formData.get("minStock")),
+        price: Number(parseFloat(formData.get("price") as string).toFixed(2)),
+        costPrice: Number(parseFloat(formData.get("costPrice") as string).toFixed(2)),
+        supplier: formData.get("supplier"),
+        active: formData.get("active"),
+      }
+
+      const data = newProduct(product)
+
+      if(!data) {
+        return false
+      }
+
+      router.refresh()
+      router.push("/products")
+      return null
+    },
+    null
+  )
 
   // Valores por defecto para el formulario
   const defaultValues: Partial<ProductFormValues> = {
-    code: "",
-    name: "",
-    description: "",
-    category: "",
-    unit: "Unidad",
-    initialStock: 0,
-    minStock: 0,
-    costPrice: 0,
-    price: 0,
-    supplier: "",
-    location: "",
-    taxable: true,
-    active: true,
     ...initialData,
   }
 
@@ -75,27 +95,15 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
     defaultValues,
   })
 
-  const onSubmit = async (data: ProductFormValues) => {
-    setIsSubmitting(true)
-    try {
-      // Aquí iría la lógica para guardar el producto
-      console.log("Datos del producto:", data)
 
-      // Simular un retraso para la operación
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Redirigir al listado de productos
-      router.push("/products")
-    } catch (error) {
-      console.error("Error al guardar el producto:", error)
-    } finally {
-      setIsSubmitting(false)
-    }
+  const handleChangeImage = (src: string) => {
+    setImgProduct(src)
+    console.log(src)
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form action={submitAction} className="space-y-8">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card>
             <CardContent className="pt-6">
@@ -104,65 +112,48 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                 <Separator />
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="code"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Código</FormLabel>
                         <FormControl>
-                          <Input placeholder="Ej: PROD-001" {...field} />
+                          <Input placeholder="Ej: PROD-001" name="code"/>
                         </FormControl>
                         <FormDescription>Código único del producto</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Nombre</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Nombre del producto" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Descripción</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Descripción detallada del producto" className="resize-none" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={() => (
+                        <FormItem>
+                          <FormLabel>Nombre</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Nombre del producto" name="name" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
                   <FormField
                     control={form.control}
                     name="category"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Categoría</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select name="category">
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Seleccionar categoría" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {categories.map((category) => (
+                            {categories?.map(({category}) => (
                               <SelectItem key={category} value={category}>
                                 {category}
                               </SelectItem>
@@ -173,31 +164,46 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                       </FormItem>
                     )}
                   />
+                </div>
 
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={() => (
+                    <FormItem>
+                      <FormLabel>Descripción</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder="Descripción detallada del producto" className="resize-none" name="description" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <FormField
                     control={form.control}
-                    name="unit"
-                    render={({ field }) => (
+                    name="img"
+                    render={() => (
                       <FormItem>
-                        <FormLabel>Unidad de Medida</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Seleccionar unidad" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {units.map((unit) => (
-                              <SelectItem key={unit} value={unit}>
-                                {unit}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
+                        <FormLabel>Imagen</FormLabel>
+                        <FormControl>
+                          <Input type="file" name="img" onChange={(e) => handleChangeImage(e.target.src)}/>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                />
+                <div className=" rounded-md">
+                    <Image 
+                      src={imgProduct || ""}
+                      alt="Imagen del producto"
+                      width={`${200}`}
+                      height={100}
+                      className="rounded-md"
+                      
+                    />
+                </div>
                 </div>
               </div>
             </CardContent>
@@ -210,28 +216,30 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                 <Separator />
 
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <FormField
-                    control={form.control}
-                    name="initialStock"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Stock Inicial</FormLabel>
-                        <FormControl>
-                          <Input type="number" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <div>
+                    <FormField
+                      control={form.control}
+                      name="stock"
+                      render={() => (
+                        <FormItem>
+                          <FormLabel>Stock Inicial</FormLabel>
+                          <FormControl>
+                            <Input type="number" name="stock"/>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
                   <FormField
                     control={form.control}
                     name="minStock"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Stock Mínimo</FormLabel>
                         <FormControl>
-                          <Input type="number" {...field} />
+                          <Input type="number" name="minStock"/>
                         </FormControl>
                         <FormDescription>Nivel para alertas de bajo stock</FormDescription>
                         <FormMessage />
@@ -244,11 +252,11 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                   <FormField
                     control={form.control}
                     name="costPrice"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Precio de Compra</FormLabel>
                         <FormControl>
-                          <Input type="number" step="0.01" {...field} />
+                          <Input type="number" step="0.01" name="costPrice" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -258,11 +266,11 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                   <FormField
                     control={form.control}
                     name="price"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Precio de Venta</FormLabel>
                         <FormControl>
-                          <Input type="number" step="0.01" {...field} />
+                          <Input type="number" step="0.01" name="price" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -274,10 +282,10 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                   <FormField
                     control={form.control}
                     name="supplier"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem>
                         <FormLabel>Proveedor</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <Select name="supplier">
                           <FormControl>
                             <SelectTrigger>
                               <SelectValue placeholder="Seleccionar proveedor" />
@@ -297,7 +305,7 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                     )}
                   />
 
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="location"
                     render={({ field }) => (
@@ -321,11 +329,11 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  /> */}
                 </div>
 
                 <div className="space-y-4">
-                  <FormField
+                  {/* <FormField
                     control={form.control}
                     name="taxable"
                     render={({ field }) => (
@@ -339,15 +347,15 @@ export function ProductForm({ initialData, isEditing = false }: ProductFormProps
                         </div>
                       </FormItem>
                     )}
-                  />
+                  /> */}
 
                   <FormField
                     control={form.control}
                     name="active"
-                    render={({ field }) => (
+                    render={() => (
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                         <FormControl>
-                          <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                          <Checkbox  name="active"/>
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel>Producto activo</FormLabel>

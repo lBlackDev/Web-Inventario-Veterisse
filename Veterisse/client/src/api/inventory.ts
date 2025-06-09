@@ -1,8 +1,8 @@
-import axios from "axios";
-import { URL_API } from "@/const";
+import { API_URL } from "@/const";
+import { useAxios } from "@/hooks/useAxios";
 
-export const getMovement = async () => {
-  return axios.get(URL_API + "inventory/movements")
-    .then(res => res.data)
-    .catch(err => console.log(err))
+export const getMovement = () => {
+  const url = API_URL + "inventory/movements";
+
+  return useAxios(url)
 }

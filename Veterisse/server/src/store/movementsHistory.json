@@ -1,0 +1,57 @@
+[
+  {
+    "id": "13241",
+    "type": "venta",
+    "description": "se vendio algo",
+    "date": "hoy",
+    "quantity": 5,
+    "products": [
+      "zapato"
+    ],
+    "reference": "3143213"
+  },
+  {
+    "id": "4r?4Q.o+<i",
+    "type": "venta",
+    "description": "se vendio algo",
+    "date": "hoy",
+    "quantity": 5,
+    "products": [
+      "zapato"
+    ],
+    "reference": "3143213"
+  },
+  {
+    "id": "u*sL9Q==>D",
+    "type": "venta",
+    "description": "se vendio algo",
+    "date": "hoy",
+    "quantity": 5,
+    "products": [
+      "zapato"
+    ],
+    "reference": "3143213"
+  },
+  {
+    "id": "vU,FZ1C$,b",
+    "type": "venta",
+    "description": "se vendio algo",
+    "date": "hoy",
+    "quantity": 5,
+    "products": [
+      "zapato"
+    ],
+    "reference": "3143213"
+  },
+  {
+    "id": ">;GGD!9p:5",
+    "type": "venta",
+    "description": "se vendio algo",
+    "date": "hoy",
+    "quantity": 5,
+    "products": [
+      "zapato"
+    ],
+    "reference": "3143213"
+  }
+]

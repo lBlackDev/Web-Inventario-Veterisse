@@ -1,4 +1,4 @@
-export type ProductsType = {
+export type ProductType = {
   id: string;
   code: string;
   name: string;
@@ -14,30 +14,12 @@ export type ProductsType = {
 }
 
 
-export interface ProductsProps {
-  products: ProductsType[] | null
-}
-
-
 export type MovementsType = {
-  id: number,
+  id: string,
   type: string,
   description: string,
   date: string,
   quantity: number,
   products: string[],
   reference: string,
-}
-
-export interface MovementsProps {
-  movements: MovementsType[]
-}
-
-export type CategoriesType = {
-  id: number,
-  category: string,
-  quantity: number,
-}
-export interface CategoryProps {
-  categories: CategoriesType[] 
 }

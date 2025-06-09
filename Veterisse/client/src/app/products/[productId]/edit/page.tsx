@@ -40,6 +40,7 @@ export default async function EditProductPage({ params }: EditProductPageProps) 
     notFound()
   }
 
+
   // Convertir el producto al formato esperado por el formulario
   const productData = {
     code: product.code,

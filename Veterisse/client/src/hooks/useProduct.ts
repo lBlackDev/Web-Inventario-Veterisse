@@ -1,5 +1,5 @@
 import { API_URL } from "@/const";
-import {useAxios} from "@/hooks/useAxios";
+import { axiosPost } from "@/lib/axiosRes";
 import { ProductsType } from "@/type";
 
 /** 
@@ -13,12 +13,21 @@ type AxioResType = {
   error: null | boolean
 }
 
-export const getProducts = (): AxioResType => {
+export const useProduct = () => {
   const url = API_URL + "productsTest"
-  return useAxios(url) 
-}
 
-export const newProduct = (data: any): AxioResType => {
-  const url = API_URL + "productsTest"
-  return useAxios(url, "POST", data) 
+
+  const getProducts = () => {
+     
+  }
+
+  const newProduct = (data: any) => {
+    const res = axiosPost(url, data)
+    return res
+  }
+
+  return {
+    getProducts,
+    newProduct
+  }
 }

@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "debug": "cross-env NODE_OPTIONS='--inspect' next dev --turbopack",
+    "scan": "next dev --turbopack & npx react-scan@latest localhost:3000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -32,6 +34,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.3",
+    "react-scan": "^0.3.3",
     "tailwind-merge": "^3.3.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.4"
@@ -42,6 +45,7 @@
     "@types/react": "19",
     "@types/react-dom": "19",
     "axios": "^1.9.0",
+    "cross-env": "^7.0.3",
     "tailwindcss": "4",
     "tw-animate-css": "^1.2.9",
     "typescript": "5",

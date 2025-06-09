@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
+        {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" /> */}
         {/* TODOs: Implementacion de toggle de tema*/}
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <SidebarProvider>

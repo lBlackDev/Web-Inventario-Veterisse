@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useOptimistic } from "react"
 import Link from "next/link"
 import { Edit, Eye, MoreHorizontal, Trash } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { ProductsProps } from "@/type"
+import { ProductsProps, ProductsType } from "@/type"
 import { useStoreTableProductos } from "@/store"
 import PaginationTable from "../PaginationTable"
 import AlertDialogTable from "../AlertDialogTable"
@@ -23,15 +23,16 @@ interface ProductTableProps extends ProductsProps {
 }
 
 export function ProductTable({products, filteredProducts}: ProductTableProps) {
-  const [tableProducts, setTableProducts] = useState<ProductsProps["products"]>([])
-  const [productsPagination, setProductsPagination] = useState<ProductsProps["products"]>([])
+  const [tableProducts, setTableProducts] = useState<ProductsType[]>([])
+  const [productsPagination, setProductsPagination] = useState<ProductsType[]>([])
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [productToDelete, setProductToDelete] = useState<string | null>(null)
   const {categoryStore}  = useStoreTableProductos()
 
+
   useEffect(() => {
-    setTableProducts(products)
+    setTableProducts(products ? products : [])
   }, [products])
 
   useEffect(() => {
@@ -41,12 +42,12 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
   const filterProductTable = () => {
     let tableFilterCategory = categoryStore.toLowerCase() != "todos"
     // Solo va ser este filtro cuando cambie de "Todos"
-     ? products.filter((product) => 
+     ? products?.filter((product) => 
         product.category.toLowerCase().includes(categoryStore.toLowerCase())
       )
     : products
 
-    tableFilterCategory = tableFilterCategory.filter((product) => {
+    tableFilterCategory = tableFilterCategory?.filter((product) => {
       const {category, name} = product
 
       return (
@@ -56,8 +57,7 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
       )
     })
 
-    console.log(tableFilterCategory)
-    setTableProducts(tableFilterCategory)
+    setTableProducts(tableFilterCategory ? tableFilterCategory : [])
   }
 
 
@@ -92,9 +92,9 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {productsPagination.map((product) => (
+            {productsPagination?.map((product) => (
               <TableRow key={product.id}>
-                <TableCell className="font-medium">{product.id}</TableCell>
+                <TableCell className="font-medium">{product.code}</TableCell>
                 <TableCell>
                   <div>
                     <div className="font-medium">{product.name}</div>
@@ -157,10 +157,16 @@ export function ProductTable({products, filteredProducts}: ProductTableProps) {
         </Table>
       </div>
 
-      <PaginationTable 
-        tableData={tableProducts}
-        changePage={handleChangePage}
-      />
+      {
+        tableProducts?.length > 0
+        && (
+          <PaginationTable
+            tableData={tableProducts}
+            rangeContent={10}
+            changePage={handleChangePage}
+          />
+        )
+      }
 
       <AlertDialogTable 
         open={deleteDialogOpen}
